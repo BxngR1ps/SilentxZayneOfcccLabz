@@ -1,0 +1,65 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib(" - HyperSh1t By C0V1D & ZayneOfccc- ", "DarkTheme")
+
+
+
+---//LOADOUT TAB
+local gunstabel = {}
+
+for i,v in pairs(game:GetService("ReplicatedStorage").Weapons.Assets:GetChildren()) do
+	table.insert(gunstabel,v.Name)
+end
+
+
+local LoadoutTab = Window:NewTab("Loadout")
+local LoadoutSection = LoadoutTab:NewSection("Edit Loadout")
+
+loadoutnum=1
+laodoutpors=2
+loadoutgun="Pistol"
+
+LoadoutSection:NewDropdown("Loadout", "Select the loadout class", {"Loadout 1", "Loadout 2", "Loadout 3","Loadout 4"}, function(currentOption)
+	print(currentOption)
+	if currentOption == "Loadout 1" then
+		loadoutnum=1
+	else if currentOption == "Loadout 2" then
+			loadoutnum=2
+		else if currentOption == "Loadout 3" then
+				loadoutnum=3
+			else if currentOption == "Loadout 4" then
+					loadoutnum=4
+				end
+			end
+		end
+	end
+end)
+
+LoadoutSection:NewDropdown("Primary 0R Secondary","Select Primary Or Secondary Gun To Switch Out",{"Primary","Secondary"},function(optn)
+	print(optn)
+	if optn == "Primary" then
+		laodoutpors=1
+	else if optn == "Secondary" then
+			laodoutpors=2
+		end
+	end
+end)
+
+LoadoutSection:NewDropdown("Select Gun", "Gun to swap to <3", gunstabel, function(currentOption)
+	print(currentOption)
+	
+end)
+
+--
+
+
+function GunChange()
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local EquipLoadout = ReplicatedStorage.Network.Remotes.EquipLoadout -- RemoteEvent 
+
+	EquipLoadout:FireServer(
+		loadoutnum, -- Loadout
+		laodoutpors, -- Primary OR Seconbdary
+		loadoutgun
+	)
+end
